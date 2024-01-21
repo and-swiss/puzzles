@@ -1,1 +1,45 @@
-....
+class MPNeuron:
+    def __init__(self, weights, threshold):
+        self.weights = weights
+        self.threshold = threshold
+
+    def activate(self, inputs):
+        # Calculate the weighted sum
+        weighted_sum = sum(w * x for w, x in zip(self.weights, inputs))
+
+        # Check if the neuron fires (output 1) or not (output 0)
+        output = 1 if weighted_sum >= self.threshold else 0
+
+        return output
+
+# Define the logic functions
+def logic_and(inputs):
+    weights = [1, 1]
+    threshold = 2
+    neuron = MPNeuron(weights, threshold)
+    return neuron.activate(inputs)
+
+def logic_or(inputs):
+    weights = [1, 1]
+    threshold = 1
+    neuron = MPNeuron(weights, threshold)
+    return neuron.activate(inputs)
+
+def logic_xor(inputs):
+    # XOR can be implemented using combination of AND, OR, and NOT
+    and_result = logic_and(inputs)
+    or_result = logic_or(inputs)
+    not_result = 1 - and_result
+    return logic_and([or_result, not_result])
+
+def logic_andnot(inputs):
+    weights = [1, -1]
+    threshold = 0
+    neuron = MPNeuron(weights, threshold)
+    return neuron.activate(inputs)
+
+# Test the logic functions
+print("AND:", logic_and([0, 0]), logic_and([0, 1]), logic_and([1, 0]), logic_and([1, 1]))
+print("OR:", logic_or([0, 0]), logic_or([0, 1]), logic_or([1, 0]), logic_or([1, 1]))
+print("XOR:", logic_xor([0, 0]), logic_xor([0, 1]), logic_xor([1, 0]), logic_xor([1, 1]))
+print("ANDNOT:", logic_andnot([0, 0]), logic_andnot([0, 1]), logic_andnot([1, 0]), logic_andnot([1, 1]))
