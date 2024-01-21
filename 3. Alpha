@@ -1,1 +1,35 @@
-.
+maximum, minimum = 1000, -1000
+
+def alphabeta(d, node, maxp, v, A, B):
+    if d == 3:
+        return v[node]
+    
+    if maxp:
+        best = minimum
+        for i in range(0, 2):
+            value = alphabeta(d + 1, node * 2 + i, False, v, A, B)
+            best = max(best, value)
+            A = max(A, best)
+            if B <= A:
+                break
+        return best
+    else:
+        best = maximum
+        for i in range(0, 2):
+            value = alphabeta(d + 1, node * 2 + i, True, v, A, B)
+            best = min(best, value)
+            A = min(A, best)
+            if B <= A:
+                break
+        return best
+
+src = []
+x = int(input("Enter the number of nodes leaf: "))
+for i in range(x):
+    y = int(input("Enter the nodes: "))
+    src.append(y)
+
+d = int(input("Enter the depth: "))
+node = int(input("Enter the node: "))
+
+print("The optimal value is:", alphabeta(d, node, True, src, minimum, maximum))
